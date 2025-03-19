@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de tâches</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .task-container { margin-top: 20px; }
+        .task-item { display: flex; justify-content: space-between; padding: 8px; border: 1px solid #ccc; margin: 5px 0; }
+        button { cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Gestion de tâches</h1>
+    <input type="text" id="taskInput" placeholder="Ajouter une tâche">
+    <button onclick="addTask()">Ajouter</button>
+    
+    <div class="task-container" id="taskList"></div>
+    
+    <script>
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const taskText = input.value.trim();
+            if (taskText === '') return;
+
+            const taskList = document.getElementById('taskList');
+            const taskItem = document.createElement('div');
+            taskItem.className = 'task-item';
+            taskItem.innerHTML = `<span>`+taskText+`</span> <button onclick="removeTask(this)">Supprimer</button>`;
+            
+            taskList.appendChild(taskItem);
+            input.value = '';
+        }
+        
+        function removeTask(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</body>
+</html>

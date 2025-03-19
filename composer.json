@@ -1,0 +1,13 @@
+{
+    "name": "boris/task-manager",
+    "description": "Gestionnaire de tache et test unitaire",
+    "require-dev": {
+        "phpunit/phpunit": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Boris\\TaskManager\\": "src/"
+        }
+    },
+    "require": {}
+}

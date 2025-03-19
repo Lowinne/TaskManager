@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de tâches</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .task-container { margin-top: 20px; }
+        .task-item { display: flex; justify-content: space-between; padding: 8px; border: 1px solid #ccc; margin: 5px 0; }
+        button { cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Gestion de tâches</h1>
+    <input type="text" id="taskInput" placeholder="Ajouter une tâche">
+    <input type="date" id="taskDueDate">
+    <button onclick="addTask()">Ajouter</button>
+    
+    <div class="task-container" id="taskList"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', loadTasks);
+
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const dueDate = document.getElementById('taskDueDate');
+            const taskText = input.value.trim();
+            const taskDate = dueDate.value;
+
+            if (taskText === '') return;
+
+            const taskList = document.getElementById('taskList');
+            const taskItem = document.createElement('div');
+            taskItem.className = 'task-item';
+            taskItem.innerHTML = `<span>${taskText} - Échéance: ${taskDate || "Aucune"}</span> 
+                                  <button onclick="removeTask(this)">Supprimer</button>`;
+            
+            taskList.appendChild(taskItem);
+            saveTasks();
+            input.value = '';
+            dueDate.value = '';
+        }
+        
+        function removeTask(button) {
+            button.parentElement.remove();
+            saveTasks();
+        }
+        
+        function saveTasks() {
+            const tasks = [];
+            document.querySelectorAll('.task-item span').forEach(task => {
+                tasks.push(task.textContent);
+            });
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+        
+        function loadTasks() {
+            const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            const taskList = document.getElementById('taskList');
+            storedTasks.forEach(taskText => {
+                const taskItem = document.createElement('div');
+                taskItem.className = 'task-item';
+                taskItem.innerHTML = `<span>${taskText}</span> <button onclick="removeTask(this)">Supprimer</button>`;
+                taskList.appendChild(taskItem);
+            });
+        }
+    </script>
+</body>
+</html>
